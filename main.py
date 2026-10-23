@@ -26,3 +26,10 @@ while not pila.isempty():
 print()
 print("La pila quedó vacía:", pila.isempty())
 
+print()
+print("PROBLEMA 1 - EXPRESIONES MATEMATICAS")
+
+expresion = input("Ingrese una expresion matematica: ")
+
+print("Expresion ingresada:", expresion)
+
