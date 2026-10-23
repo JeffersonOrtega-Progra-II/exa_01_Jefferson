@@ -1,4 +1,5 @@
 from cls_Stack import cls_Stack
+from Subrutinas import validar_expresion
 
 print("====================================")
 print("       PRIMERA PRUEBA PARCIAL")
@@ -31,5 +32,8 @@ print("PROBLEMA 1 - EXPRESIONES MATEMATICAS")
 
 expresion = input("Ingrese una expresion matematica: ")
 
-print("Expresion ingresada:", expresion)
+if validar_expresion(expresion):
+    print("La expresion esta correctamente escrita")
+else:
+    print("La expresion esta incorrectamente escrita")
 
