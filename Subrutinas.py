@@ -1,9 +1,7 @@
 import random
-
 from cls_Stack import cls_Stack
 
-# means of char
-# B = Bastos o pica
+# B = Bastos o Picas
 # C = Corazones
 # D = Diamantes
 # T = Treboles
@@ -21,7 +19,13 @@ baraja = [
     ["1T", "2T", "3T", "4T", "5T", "6T", "7T",
      "8T", "9T", "10T", "JT", "QT", "KT"]
 ]
+
+
+# PROBLEMA 1
+# Validar expresiones matematicas
+
 def validar_expresion(expresion):
+
     pila = cls_Stack()
 
     if not pila.isempty():
@@ -38,6 +42,7 @@ def validar_expresion(expresion):
     for caracter in expresion:
 
         if caracter in "([{":
+
             if pila.isfull():
                 correcta = False
                 break
@@ -45,6 +50,7 @@ def validar_expresion(expresion):
             pila.push(caracter)
 
         elif caracter in ")]}":
+
             if pila.isempty():
                 correcta = False
                 break
@@ -58,48 +64,52 @@ def validar_expresion(expresion):
     if not pila.isempty():
         correcta = False
 
+    # Vaciar la pila al finalizar
     while not pila.isempty():
         pila.pop()
 
     return correcta
 
-    while not pila.isempty():
-        pila.pop()
 
-    return correcta
-
-    while not pila.isempty():
-        pila.pop()
-
-    return correcta
+# PROBLEMA 2
+# Repartir naipes aleatoriamente
 
 def repartir_naipes(jugadores):
 
-    # Crear una lista con todas las cartas de la baraja
     naipes_disponibles = []
 
+    # Cargar todas las cartas de la baraja
     for palo in baraja:
         for naipe in palo:
             naipes_disponibles.append(naipe)
 
-    # Mezclar las cartas aleatoriamente
+    # Mezclar las cartas
     random.shuffle(naipes_disponibles)
 
-    # Comprobar que las pilas estén vacías
+    # Verificar que las pilas esten vacias
     for jugador in jugadores:
-        if not jugador.pila.isempty():
-            print("Error: la pila debe iniciar vacia")
-            return
 
-    # Repartir una carta por turno a cada jugador
+        if not jugador.pila.isempty():
+            print("Error: las pilas deben iniciar vacias")
+            return False
+
+    # Repartir una carta por turno
     while not all(jugador.pila.isfull() for jugador in jugadores):
 
         for jugador in jugadores:
 
             if not jugador.pila.isfull():
+
+                if not naipes_disponibles:
+                    print("Error: no hay cartas suficientes")
+                    return False
+
                 naipe = naipes_disponibles.pop()
+
                 jugador.pila.push(naipe)
 
     print("Cartas repartidas correctamente")
+
+    return True
 
     
