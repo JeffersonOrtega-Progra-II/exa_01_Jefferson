@@ -70,3 +70,97 @@ print("Cantidad de cartas por jugador:")
 for jugador in jugadores:
     print(jugador.nombre, ":", len(jugador.pila), "cartas")
 
+from time import sleep
+
+# INICIO DEL JUEGO
+
+print()
+print("====================================")
+print("      BUSCANDO A LA REINA")
+print("====================================")
+
+ancho = 16
+
+# Mostrar los nombres de los jugadores en columnas
+for jugador in jugadores:
+    print(jugador.nombre.ljust(ancho), end="")
+
+print()
+print("-" * 64)
+
+ganador = None
+
+# Jugar mientras existan cartas y no haya ganador
+while any(not j.pila.isempty() for j in jugadores) and ganador is None:
+
+    for i, jugador in enumerate(jugadores):
+
+        if not jugador.pila.isempty():
+
+            # Sacar una carta de la pila
+            naipe = jugador.pila.pop()
+
+            # Guardar las cartas obtenidas
+            jugador.naipes_obtenidos.append(naipe)
+
+            # Mostrar la carta en la columna del jugador
+            print(" " * (i * ancho) + naipe)
+
+            # Buscar la Reina de Corazones
+            if naipe == "QC":
+                ganador = jugador
+                break
+
+            # Esperar 2 segundos para el siguiente turno
+            sleep(2)
+
+
+# RESULTADOS DEL JUEGO
+
+print()
+print("====================================")
+print("          RESULTADOS")
+print("====================================")
+
+if ganador is not None:
+
+    print("El ganador es:", ganador.nombre)
+    print("Encontro la Reina de Corazones (QC)")
+
+    # Obtener todos los corazones del ganador
+    corazones = [
+        naipe
+        for naipe in ganador.naipes_obtenidos
+        if naipe.endswith("C")
+    ]
+
+    print()
+    print("Cartas de corazones del ganador:")
+
+    for carta in corazones:
+        print(carta)
+
+else:
+    print("No hubo ganador.")
+    print("La Reina de Corazones no fue encontrada.")
+
+
+# VACIAR LAS PILAS AL FINALIZAR
+
+print()
+print("Verificando las pilas...")
+
+for jugador in jugadores:
+
+    while not jugador.pila.isempty():
+        jugador.pila.pop()
+
+    print(
+        jugador.nombre,
+        "- Pila vacia:",
+        jugador.pila.isempty()
+    )
+
+print()
+print("FIN DEL JUEGO")
+
