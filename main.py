@@ -1,166 +1,252 @@
+from time import sleep
+
 from cls_Stack import cls_Stack
 from Subrutinas import validar_expresion, repartir_naipes
 
+
+# CLASE JUGADOR
+
 class Jugador:
+
     def __init__(self, nombre):
+
         self.nombre = nombre
+
+        # Cada jugador tiene su propia pila
         self.pila = cls_Stack()
+
+        # Lista de cartas obtenidas
         self.naipes_obtenidos = []
 
-print("====================================")
-print("       PRIMERA PRUEBA PARCIAL")
-print("====================================")
 
-print("Estructura de datos: Pilas")
-print()
+# PROBLEMA 1
+# VALIDACION DE EXPRESIONES MATEMATICAS
 
-pila = cls_Stack()
+def problema_1():
 
-print("La pila está vacía:", pila.isempty())
+    print()
+    print("====================================")
+    print("          PROBLEMA 1")
+    print("    EXPRESIONES MATEMATICAS")
+    print("====================================")
 
-pila.push("A")
-pila.push("B")
-pila.push("C")
+    expresion = input(
+        "Ingrese una expresion matematica: "
+    )
 
-print("Elementos agregados correctamente")
+    if validar_expresion(expresion):
 
-print()
-print("Contenido de la pila:")
+        print("La expresion esta correctamente escrita")
 
-while not pila.isempty():
-    print(pila.pop())
+    else:
 
-print()
-print("La pila quedó vacía:", pila.isempty())
-
-print()
-print("PROBLEMA 1 - EXPRESIONES MATEMATICAS")
-
-expresion = input("Ingrese una expresion matematica: ")
-
-if validar_expresion(expresion):
-    print("La expresion esta correctamente escrita")
-else:
-    print("La expresion esta incorrectamente escrita")
-
-print()
-print("PROBLEMA 2 - REINA DE CORAZONES")
-
-jugadores = [
-    Jugador("Merlina"),
-    Jugador("Tio Lucas"),
-    Jugador("Pericles"),
-    Jugador("Homero")
-]
-
-print("Jugadores creados correctamente:")
-
-for jugador in jugadores:
-    print(jugador.nombre)
-    print("Pila vacia:", jugador.pila.isempty())
-
-print()
-print("REPARTIENDO NAIPES...")
-
-repartir_naipes(jugadores)
-
-print()
-print("Cantidad de cartas por jugador:")
-
-for jugador in jugadores:
-    print(jugador.nombre, ":", len(jugador.pila), "cartas")
-
-from time import sleep
-
-# INICIO DEL JUEGO
-
-print()
-print("====================================")
-print("      BUSCANDO A LA REINA")
-print("====================================")
-
-ancho = 16
-
-# Mostrar los nombres de los jugadores en columnas
-for jugador in jugadores:
-    print(jugador.nombre.ljust(ancho), end="")
-
-print()
-print("-" * 64)
-
-ganador = None
-
-# Jugar mientras existan cartas y no haya ganador
-while any(not j.pila.isempty() for j in jugadores) and ganador is None:
-
-    for i, jugador in enumerate(jugadores):
-
-        if not jugador.pila.isempty():
-
-            # Sacar una carta de la pila
-            naipe = jugador.pila.pop()
-
-            # Guardar las cartas obtenidas
-            jugador.naipes_obtenidos.append(naipe)
-
-            # Mostrar la carta en la columna del jugador
-            print(" " * (i * ancho) + naipe)
-
-            # Buscar la Reina de Corazones
-            if naipe == "QC":
-                ganador = jugador
-                break
-
-            # Esperar 2 segundos para el siguiente turno
-            sleep(2)
+        print("La expresion esta incorrectamente escrita")
 
 
-# RESULTADOS DEL JUEGO
+# PROBLEMA 2
+# BUSCANDO A LA REINA DE CORAZONES
 
-print()
-print("====================================")
-print("          RESULTADOS")
-print("====================================")
+def problema_2():
 
-if ganador is not None:
+    print()
+    print("====================================")
+    print("          PROBLEMA 2")
+    print("     REINA DE CORAZONES")
+    print("====================================")
 
-    print("El ganador es:", ganador.nombre)
-    print("Encontro la Reina de Corazones (QC)")
+    # Crear los cuatro jugadores
 
-    # Obtener todos los corazones del ganador
-    corazones = [
-        naipe
-        for naipe in ganador.naipes_obtenidos
-        if naipe.endswith("C")
+    jugadores = [
+        Jugador("Merlina"),
+        Jugador("Tio Lucas"),
+        Jugador("Pericles"),
+        Jugador("Homero")
     ]
 
     print()
-    print("Cartas de corazones del ganador:")
+    print("Jugadores creados correctamente")
 
-    for carta in corazones:
-        print(carta)
+    for jugador in jugadores:
 
-else:
-    print("No hubo ganador.")
-    print("La Reina de Corazones no fue encontrada.")
+        print(
+            jugador.nombre,
+            "- Pila vacia:",
+            jugador.pila.isempty()
+        )
+
+    # REPARTIR CARTAS
+
+    print()
+    print("Repartiendo cartas...")
+
+    if not repartir_naipes(jugadores):
+        return
+
+    print()
+    print("Cantidad de cartas por jugador:")
+
+    for jugador in jugadores:
+
+        print(
+            jugador.nombre,
+            ":",
+            len(jugador.pila),
+            "cartas"
+        )
+
+    # INICIAR EL JUEGO
+
+    print()
+    print("====================================")
+    print("       INICIANDO EL JUEGO")
+    print("====================================")
+
+    ancho = 16
+
+    # Encabezados de las columnas
+
+    for jugador in jugadores:
+
+        print(
+            jugador.nombre.ljust(ancho),
+            end=""
+        )
+
+    print()
+    print("-" * 64)
+
+    ganador = None
+
+    # Continuar mientras haya cartas
+    # y no se encuentre la Reina de Corazones
+
+    while (
+        any(not j.pila.isempty() for j in jugadores)
+        and ganador is None
+    ):
+
+        for i, jugador in enumerate(jugadores):
+
+            if not jugador.pila.isempty():
+
+                # Sacar una carta
+                naipe = jugador.pila.pop()
+
+                # Guardar la carta obtenida
+                jugador.naipes_obtenidos.append(naipe)
+
+                # Mostrar carta en su columna
+                print(
+                    " " * (i * ancho) + naipe
+                )
+
+                # Verificar si es la Reina
+                if naipe == "QC":
+
+                    ganador = jugador
+
+                    break
+
+                # Esperar antes del siguiente turno
+                sleep(2)
+
+    # MOSTRAR RESULTADOS
+
+    print()
+    print("====================================")
+    print("          RESULTADOS")
+    print("====================================")
+
+    if ganador is not None:
+
+        print()
+        print("GANADOR:", ganador.nombre)
+
+        print("Encontro la Reina de Corazones (QC)")
+
+        # List Comprehension
+        # Obtener las cartas de corazon del ganador
+
+        corazones = [
+            naipe
+            for naipe in ganador.naipes_obtenidos
+            if naipe.endswith("C")
+        ]
+
+        print()
+        print("Cartas de corazones obtenidas:")
+
+        for carta in corazones:
+
+            print(carta)
+
+    else:
+
+        print()
+        print("No hubo ganador")
+
+        print("La Reina de Corazones no fue encontrada")
+
+    # VACIAR LAS PILAS
+
+    print()
+    print("Verificando las pilas...")
+
+    for jugador in jugadores:
+
+        while not jugador.pila.isempty():
+
+            jugador.pila.pop()
+
+        print(
+            jugador.nombre,
+            "- Pila vacia:",
+            jugador.pila.isempty()
+        )
+
+    print()
+    print("FIN DEL JUEGO")
 
 
-# VACIAR LAS PILAS AL FINALIZAR
+# MENU PRINCIPAL
 
-print()
-print("Verificando las pilas...")
+def main():
 
-for jugador in jugadores:
+    while True:
 
-    while not jugador.pila.isempty():
-        jugador.pila.pop()
+        print()
+        print("====================================")
+        print("       PRIMERA PRUEBA PARCIAL")
+        print("====================================")
 
-    print(
-        jugador.nombre,
-        "- Pila vacia:",
-        jugador.pila.isempty()
-    )
+        print("1. Validar expresion matematica")
+        print("2. Buscar la Reina de Corazones")
+        print("3. Salir")
 
-print()
-print("FIN DEL JUEGO")
+        print()
 
+        opcion = input("Seleccione una opcion: ")
+
+        if opcion == "1":
+
+            problema_1()
+
+        elif opcion == "2":
+
+            problema_2()
+
+        elif opcion == "3":
+
+            print("Programa finalizado")
+            break
+
+        else:
+
+            print("Opcion incorrecta")
+
+
+# EJECUTAR PROGRAMA
+
+if __name__ == "__main__":
+
+    main()
