@@ -1,5 +1,5 @@
 from cls_Stack import cls_Stack
-from Subrutinas import validar_expresion
+from Subrutinas import validar_expresion, repartir_naipes
 
 class Jugador:
     def __init__(self, nombre):
@@ -58,4 +58,15 @@ print("Jugadores creados correctamente:")
 for jugador in jugadores:
     print(jugador.nombre)
     print("Pila vacia:", jugador.pila.isempty())
+
+print()
+print("REPARTIENDO NAIPES...")
+
+repartir_naipes(jugadores)
+
+print()
+print("Cantidad de cartas por jugador:")
+
+for jugador in jugadores:
+    print(jugador.nombre, ":", len(jugador.pila), "cartas")
 
