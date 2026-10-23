@@ -1,6 +1,12 @@
 from cls_Stack import cls_Stack
 from Subrutinas import validar_expresion
 
+class Jugador:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.pila = cls_Stack()
+        self.naipes_obtenidos = []
+
 print("====================================")
 print("       PRIMERA PRUEBA PARCIAL")
 print("====================================")
@@ -36,4 +42,20 @@ if validar_expresion(expresion):
     print("La expresion esta correctamente escrita")
 else:
     print("La expresion esta incorrectamente escrita")
+
+print()
+print("PROBLEMA 2 - REINA DE CORAZONES")
+
+jugadores = [
+    Jugador("Merlina"),
+    Jugador("Tio Lucas"),
+    Jugador("Pericles"),
+    Jugador("Homero")
+]
+
+print("Jugadores creados correctamente:")
+
+for jugador in jugadores:
+    print(jugador.nombre)
+    print("Pila vacia:", jugador.pila.isempty())
 
