@@ -62,3 +62,44 @@ def validar_expresion(expresion):
         pila.pop()
 
     return correcta
+
+    while not pila.isempty():
+        pila.pop()
+
+    return correcta
+
+    while not pila.isempty():
+        pila.pop()
+
+    return correcta
+
+def repartir_naipes(jugadores):
+
+    # Crear una lista con todas las cartas de la baraja
+    naipes_disponibles = []
+
+    for palo in baraja:
+        for naipe in palo:
+            naipes_disponibles.append(naipe)
+
+    # Mezclar las cartas aleatoriamente
+    random.shuffle(naipes_disponibles)
+
+    # Comprobar que las pilas estén vacías
+    for jugador in jugadores:
+        if not jugador.pila.isempty():
+            print("Error: la pila debe iniciar vacia")
+            return
+
+    # Repartir una carta por turno a cada jugador
+    while not all(jugador.pila.isfull() for jugador in jugadores):
+
+        for jugador in jugadores:
+
+            if not jugador.pila.isfull():
+                naipe = naipes_disponibles.pop()
+                jugador.pila.push(naipe)
+
+    print("Cartas repartidas correctamente")
+
+    
