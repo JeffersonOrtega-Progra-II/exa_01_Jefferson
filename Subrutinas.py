@@ -1,5 +1,7 @@
 import random
 
+from cls_Stack import cls_Stack
+
 # means of char
 # B = Bastos o pica
 # C = Corazones
@@ -19,3 +21,44 @@ baraja = [
     ["1T", "2T", "3T", "4T", "5T", "6T", "7T",
      "8T", "9T", "10T", "JT", "QT", "KT"]
 ]
+def validar_expresion(expresion):
+    pila = cls_Stack()
+
+    if not pila.isempty():
+        return False
+
+    parejas = {
+        ")": "(",
+        "]": "[",
+        "}": "{"
+    }
+
+    correcta = True
+
+    for caracter in expresion:
+
+        if caracter in "([{":
+            if pila.isfull():
+                correcta = False
+                break
+
+            pila.push(caracter)
+
+        elif caracter in ")]}":
+            if pila.isempty():
+                correcta = False
+                break
+
+            apertura = pila.pop()
+
+            if apertura != parejas[caracter]:
+                correcta = False
+                break
+
+    if not pila.isempty():
+        correcta = False
+
+    while not pila.isempty():
+        pila.pop()
+
+    return correcta
